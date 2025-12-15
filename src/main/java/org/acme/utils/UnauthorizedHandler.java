@@ -1,0 +1,17 @@
+package org.acme.utils;
+
+
+import io.quarkus.security.UnauthorizedException;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
+
+@Provider
+public class UnauthorizedHandler implements ExceptionMapper<UnauthorizedException> {
+    @Override
+    public Response toResponse(UnauthorizedException exception) {
+        return Response.status(Response.Status.UNAUTHORIZED)
+                .entity(new handlerResponse("Unauthorized", "01", null))
+                .build();
+    }
+}

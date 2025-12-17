@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 import java.time.LocalDateTime;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tdr_identitas_vendor")
-public class TdrIdentitasVendorEntity {
+public class TdrIdentitasVendorEntity extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_identitas")

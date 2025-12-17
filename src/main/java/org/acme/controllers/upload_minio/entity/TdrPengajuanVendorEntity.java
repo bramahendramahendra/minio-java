@@ -1,5 +1,6 @@
 package org.acme.controllers.upload_minio.entity;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tdr_pengajuan_vendor")
-public class TdrPengajuanVendorEntity {
+public class TdrPengajuanVendorEntity extends PanacheEntityBase {
     
     @Id
     @Column(name = "id_pengajuan", length = 15)
@@ -52,7 +53,6 @@ public class TdrPengajuanVendorEntity {
     @Column(name = "alasan_tolak", columnDefinition = "TEXT")
     private String alasan_tolak;
 
-
     @Column(name = "alasan_dikembalikan_vendor", columnDefinition = "TEXT")
     private String alasan_dikembalikan_vendor;
 
@@ -61,7 +61,6 @@ public class TdrPengajuanVendorEntity {
 
     @Column(name = "lkr_path")
     private String lkr_path;
-
 
     @Column(name = "maker_rurptrskt", columnDefinition = "TEXT")
     private String maker_rurptrskt;
@@ -108,9 +107,6 @@ public class TdrPengajuanVendorEntity {
     @Column(name = "message_is_eproc", columnDefinition = "TEXT")
     private String message_is_eproc;
     
-
-    
-
     public String getId_pengajuan() {
         return id_pengajuan;
     }

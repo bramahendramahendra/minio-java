@@ -20,7 +20,7 @@ import org.acme.controllers.upload_minio.entity.TdrPerbankanVendorEntity;
 import org.acme.controllers.upload_minio.entity.TdrPerbankanVendorMinioEntity;
 import org.acme.controllers.upload_minio.entity.TdrPerbankanVendorMinioNonSktEntity;
 import org.acme.controllers.upload_minio.entity.TdrPerbankanVendorNonSktEntity;
-
+import org.acme.controllers.upload_minio.entity.TdrUploadMinioLogEntity;
 import org.acme.controllers.upload_minio.repository.TdrIdentitasVendorMinioRepository;
 import org.acme.controllers.upload_minio.repository.TdrIdentitasVendorRepository;
 import org.acme.controllers.upload_minio.repository.TdrMstFileLegalitasRepository;
@@ -29,6 +29,7 @@ import org.acme.controllers.upload_minio.repository.TdrPengalamanVendorMinioRepo
 import org.acme.controllers.upload_minio.repository.TdrPengalamanVendorRepository;
 import org.acme.controllers.upload_minio.repository.TdrPerbankanVendorMinioRepository;
 import org.acme.controllers.upload_minio.repository.TdrPerbankanVendorRepository;
+import org.acme.controllers.upload_minio.repository.TdrUploadMinioLogRepository;
 import org.acme.utils.handlerResponse;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.context.ManagedExecutor;
@@ -88,6 +89,8 @@ public class UploadScheduled {
 
     @Inject TdrPengalamanVendorMinioRepository tdrPengalamanVendorMinio;
 
+    @Inject TdrUploadMinioLogRepository tdrUploadMinioLogRepository;
+
     @Inject MinioAsyncClient MinioClient;
 
     @Inject MinioClient MC;
@@ -104,11 +107,90 @@ public class UploadScheduled {
 
     private static final Logger LOG = Logger.getLogger(UploadScheduled.class);
 
+    /**
+     * Helper method untuk menyimpan log upload
+     */
+    private void saveUploadLog(String idPengajuan, Long idIdentitas, String dokType, Integer dokNumber, String fileName, String pathMinio, String status, String errorMessage, Integer statusSkt) {
+        try {
+            TdrUploadMinioLogEntity log = new TdrUploadMinioLogEntity();
+            log.setIdPengajuan(idPengajuan);
+            log.setIdIdentitas(idIdentitas);
+            log.setDokType(dokType);
+            log.setDokNumber(dokNumber);
+            log.setFileName(fileName);
+            log.setPathMinio(pathMinio);
+            log.setStatus(status);
+            log.setErrorMessage(errorMessage);
+            log.setUploadDate(LocalDateTime.now());
+            log.setStatusSkt(statusSkt);
+            tdrUploadMinioLogRepository.persist(log);
+        } catch (Exception e) {
+            LOG.error("Failed to save upload log: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Helper method untuk upload dokumen identitas (mengganti kode repetitif dok1-dok30)
+     */
+    private void uploadDokumenIdentitas(String bucket, String folderRoot, TdrPengajuanVendorEntity tdrPengajuanVendor, TdrIdentitasVendorEntity i, String fileName, int dokNumber) {
+        try {
+            LOG.info("txt dok " + dokNumber + " begin upload id_pengajuan = " + tdrPengajuanVendor.getId_pengajuan());
+            TdrMstFileLegalitasEntity file = tdrFileLegal.find("where dok = :dok", Parameters.with("dok", dokNumber)).firstResult();
+            String nama_file = file.getNama_file();
+            String pathMinio = tdrPengajuanVendor.getId_pengajuan() + "/" + nama_file + "/" + fileName;
+            String urlPath = folderRoot + "/" + fileName;
+            Boolean checkFile = this.checkFile(urlPath);
+            
+            if(tdrPengajuanVendor.getId_pengajuan() != null){
+                if(checkFile){
+                    boolean get = this.check_object(bucket, pathMinio);
+                    if(!get){
+                        Boolean upload = this.uploadLegalDoc(bucket, pathMinio, urlPath);
+                        if(upload){
+                            saveIdentitasVendorMinio(tdrPengajuanVendor, dokNumber, nama_file, pathMinio);
+                            saveUploadLog(tdrPengajuanVendor.getId_pengajuan(), i.getId_identitas(), 
+                                        "identitas", dokNumber, fileName, pathMinio, "SUCCESS", null, 1);
+                            LOG.info("data berhasil di upload");
+                        } else {
+                            saveUploadLog(tdrPengajuanVendor.getId_pengajuan(), i.getId_identitas(), 
+                                        "identitas", dokNumber, fileName, pathMinio, "FAILED", "Upload failed", 1);
+                        }
+                    } else {
+                        this.uploadLegalDoc(bucket, pathMinio, urlPath);
+                        saveIdentitasVendorMinio(tdrPengajuanVendor, dokNumber, nama_file, pathMinio);
+                        saveUploadLog(tdrPengajuanVendor.getId_pengajuan(), i.getId_identitas(), 
+                                    "identitas", dokNumber, fileName, pathMinio, "SUCCESS", "Re-uploaded", 1);
+                        LOG.info("data berhasil di upload");
+                    }
+                } else {
+                    saveUploadLog(tdrPengajuanVendor.getId_pengajuan(), i.getId_identitas(), 
+                                "identitas", dokNumber, fileName, pathMinio, "SKIPPED", "File not exist", 1);
+                    LOG.info("File Not Exist " + fileName);
+                }
+            }
+        } catch (Exception e) {
+            saveUploadLog(tdrPengajuanVendor.getId_pengajuan(), i.getId_identitas(), 
+                        "identitas", dokNumber, fileName, null, "FAILED", e.getMessage(), 1);
+            LOG.error("Error uploading dok " + dokNumber + ": " + e.getMessage());
+        }
+    }
+
+    /**
+     * Helper method untuk save identitas vendor minio
+     */
+    private void saveIdentitasVendorMinio(TdrPengajuanVendorEntity tdrPengajuanVendor, 
+                                        int dokNumber, String namaFile, String pathMinio) {
+        TdrIdentitasVendorMinioEntity entityTdrIdentitas = new TdrIdentitasVendorMinioEntity();
+        entityTdrIdentitas.setId_pengajuan(tdrPengajuanVendor.getId_pengajuan());
+        entityTdrIdentitas.setDok(dokNumber);
+        entityTdrIdentitas.setIs_eproc(0);
+        entityTdrIdentitas.setNama_dok(namaFile);
+        entityTdrIdentitas.setPath_minio(pathMinio);
+        entityTdrIdentitas.setStatus_skt(1);
+        entityTdrIdentitas.setDate_upload(LocalDateTime.now());
+        tdrIdentitasMinio.persist(entityTdrIdentitas);
+    }
     
-
-
-
-
     // @Scheduled(every = "60s")
     // @Transactional
 
@@ -133,13 +215,21 @@ public class UploadScheduled {
     //         LOG.info(result);
     //     });
     // }
-    
 
-    @Scheduled(every = "60s")
+    // @Scheduled(every = "60s")
     @Transactional
     public void upload_skt(){
+        upload_skt_process(null);
+    }
 
-        
+    @Transactional
+    public void upload_skt_by_id_pengajuan(String idPengajuan){
+        upload_skt_process(idPengajuan);
+    }
+    
+    // @Scheduled(every = "60s")
+    @Transactional
+    public void upload_skt_process(String specificIdPengajuan) {
         try {
             String bucket = ConfigProvider.getConfig().getValue("bucket.minio", String.class);
             boolean a = this.checkBucket(bucket);
@@ -147,10 +237,20 @@ public class UploadScheduled {
             
             if(!a){
                 this.createBucket(bucket);
+            } 
+            LOG.info("Upload SKT Begin" + (specificIdPengajuan != null ? " for ID: " + specificIdPengajuan : ""));
+        
+            List<TdrPengajuanVendorEntity> tdrPengajuanVendorList;
+            // Kondisi berdasarkan parameter
+            if(specificIdPengajuan != null && !specificIdPengajuan.isEmpty()) {
+                // Upload berdasarkan id_pengajuan tertentu
+                tdrPengajuanVendorList = tdrPengajuan.find("id_pengajuan = ?1 AND id_vendor_eproc is not null", specificIdPengajuan).list();
+            } else {
+                // Upload scheduled (semua data)
+                tdrPengajuanVendorList = tdrPengajuan.find("where id_pengajuan is not null AND id_vendor_eproc is not null").page(0, 50).list();
             }
-            LOG.info("Upload SKT Begin");
             
-            List<TdrPengajuanVendorEntity> tdrPengajuanVendorList = tdrPengajuan.find("where id_pengajuan is not null AND id_vendor_eproc is not null").page(0, 50).list();
+            // List<TdrPengajuanVendorEntity> tdrPengajuanVendorList = tdrPengajuan.find("where id_pengajuan is not null AND id_vendor_eproc is not null").page(0, 50).list();
             for(TdrPengajuanVendorEntity tdrPengajuanVendor: tdrPengajuanVendorList){
                 // System.out.println(i.getDok_legalitas_path());
                 TdrIdentitasVendorEntity i = tdrIdentitas.find("id_identitas = ?1 AND is_minio_identitas_vendor is null OR is_minio_identitas_vendor = ?2", tdrPengajuanVendor.getId_identitas(),0).firstResult();
@@ -1943,7 +2043,7 @@ public class UploadScheduled {
     //     });
     // }
 
-    @Scheduled(every = "60s")
+    // @Scheduled(every = "60s")
     @Transactional
     public void upload_non_skt(){
         LOG.info("Upload Non SKT begin");
@@ -2390,6 +2490,7 @@ public class UploadScheduled {
             return false;
         }
     }
+
     public Boolean checkFile(String urlFile){
         // try {
             File file = new File(urlFile);

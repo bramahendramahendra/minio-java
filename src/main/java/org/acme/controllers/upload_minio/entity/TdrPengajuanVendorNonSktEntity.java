@@ -41,15 +41,12 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
 
     @Column(name = "usulan_ke")
     private Integer usulan_ke;
-    
-  
 
     @Column(name = "tahapan_mcs", length = 2)
     private String tahapan_mcs;
 
     @Column(name = "alasan_tolak", columnDefinition = "TEXT")
     private String alasan_tolak;
-
 
     @Column(name = "alasan_dikembalikan_vendor", columnDefinition = "TEXT")
     private String alasan_dikembalikan_vendor;
@@ -75,8 +72,6 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
 
     @Column(name = "status_realisasi")
     private Integer status_realisasi;
-
-  
 
     @Column(name = "job_status", length = 2)
     private String job_status;
@@ -104,8 +99,6 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
 
     @Column(name = "message_is_eproc", columnDefinition = "TEXT")
     private String message_is_eproc;
-
-    
 
     public String getId_pengajuan() {
         return id_pengajuan;
@@ -187,7 +180,6 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
         this.usulan_ke = usulan_ke;
     }
 
-
     public String getTahapan_mcs() {
         return tahapan_mcs;
     }
@@ -267,7 +259,6 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
     public void setStatus_realisasi(Integer status_realisasi) {
         this.status_realisasi = status_realisasi;
     }
-
 
     public String getJob_status() {
         return job_status;

@@ -35,8 +35,6 @@ quarkus.swagger-ui.path=/api-doc
 # quarkus.http.cors.origins=*
 
 
-# Enable Hibernate statistics
-quarkus.hibernate-orm.statistics=true
 
 quarkus.logging-manager.openapi.included=true
 quarkus.http.auth.policy.admin-access.roles-allowed=admin
@@ -55,14 +53,9 @@ quarkus.datasource.jdbc.connection-timeout=30
 quarkus.datasource.jdbc.idle-timeout=30000
 quarkus.datasource.jdbc.max-lifetime=1800000
 quarkus.datasource.jdbc.leak-detection-threshold=30000
-quarkus.hibernate-orm.log.sql=true
-quarkus.hibernate-orm.log.bind-parameters=true
-quarkus.hibernate-orm.log.format-sql=true
+quarkus.hibernate-orm.log.sql=false
+quarkus.hibernate-orm.log.bind-parameters=false
 quarkus.http.port=3010
-
-
-# Slow query log (query > 1 detik)
-quarkus.hibernate-orm.log.queries-slower-than-ms=1000
 
 quarkus.hibernate-orm.database.generation=none
 quarkus.hibernate-orm.jdbc.transaction-isolation=TRANSACTION_READ_COMMITTED
@@ -73,7 +66,3 @@ quarkus.http.body.uploads-directory=tmp
 quarkus.resteasy-reactive.http.body.size-limit=10M
 
 quarkus.ssl.native=true
-
-# Logging configuration
-quarkus.log.level=INFO
-quarkus.log.category."org.acme.scheduler".level=DEBUG

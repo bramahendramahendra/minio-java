@@ -8,9 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tdr_perbankan_vendor_nonskt")
-public class TdrPerbankanVendorNonSktEntity {
-     @Id
+@Table(name = "tdr_perbankan_vendor")
+public class TdrPerbankanVendorSktEntity {
+    @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "id_perbankan")
     private Long id_perbankan;
@@ -39,7 +39,7 @@ public class TdrPerbankanVendorNonSktEntity {
     @Column(name = "negara")
     private String negara;
 
-    @Column(name = "kode_negara", length = 3)
+    @Column(name = "kode_negara")
     private String kode_negara;
 
     @Column(name = "no_rek", length = 50)
@@ -56,7 +56,7 @@ public class TdrPerbankanVendorNonSktEntity {
 
     @Column(name = "koran_path")
     private String koran_path;
-    
+
     @Column(name = "minio_status")
     private Integer minio_status;
 
@@ -180,10 +180,15 @@ public class TdrPerbankanVendorNonSktEntity {
         this.kode_negara = kode_negara;
     }
 
+
     public Integer getMinio_status(){
         return minio_status;
     }
     public void setMinio_status(Integer minio_status){
         this.minio_status = minio_status;
     }
+
+    
+
+
 }

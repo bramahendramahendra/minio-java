@@ -7,11 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table(name = "tdr_review_vendor_nonskt")
-public class TdrReviewVendorNonSktEntity {
-     @Id
+@Table(name = "tdr_review_vendor")
+public class TdrReviewVendorSktEntity {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_review")
     private Long id_review;
@@ -78,4 +77,6 @@ public class TdrReviewVendorNonSktEntity {
     public void setAverage_rating(String average_rating) {
         this.average_rating = average_rating;
     }
+
+    
 }

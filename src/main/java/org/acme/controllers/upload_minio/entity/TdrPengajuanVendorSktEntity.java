@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tdr_pengajuan_vendor_nonskt")
-public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
+@Table(name = "tdr_pengajuan_vendor")
+public class TdrPengajuanVendorSktEntity extends PanacheEntityBase {
+    
     @Id
     @Column(name = "id_pengajuan", length = 15)
     private String id_pengajuan;
@@ -42,6 +43,9 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
 
     @Column(name = "usulan_ke")
     private Integer usulan_ke;
+    
+    @Column(name = "status_mcs", length = 5)
+    private String status_mcs;
 
     @Column(name = "tahapan_mcs", length = 2)
     private String tahapan_mcs;
@@ -58,7 +62,6 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
     @Column(name = "lkr_path")
     private String lkr_path;
 
-
     @Column(name = "maker_rurptrskt", columnDefinition = "TEXT")
     private String maker_rurptrskt;
 
@@ -73,6 +76,9 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
 
     @Column(name = "status_realisasi")
     private Integer status_realisasi;
+
+    @Column(name = "id_vendor")
+    private Integer id_vendor;
 
     @Column(name = "job_status", length = 2)
     private String job_status;
@@ -100,7 +106,7 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
 
     @Column(name = "message_is_eproc", columnDefinition = "TEXT")
     private String message_is_eproc;
-
+    
     public String getId_pengajuan() {
         return id_pengajuan;
     }
@@ -179,6 +185,14 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
 
     public void setUsulan_ke(Integer usulan_ke) {
         this.usulan_ke = usulan_ke;
+    }
+
+    public String getStatus_mcs() {
+        return status_mcs;
+    }
+
+    public void setStatus_mcs(String status_mcs) {
+        this.status_mcs = status_mcs;
     }
 
     public String getTahapan_mcs() {
@@ -261,6 +275,14 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
         this.status_realisasi = status_realisasi;
     }
 
+    public Integer getId_vendor() {
+        return id_vendor;
+    }
+
+    public void setId_vendor(Integer id_vendor) {
+        this.id_vendor = id_vendor;
+    }
+
     public String getJob_status() {
         return job_status;
     }
@@ -301,20 +323,20 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
         this.id_vendor_group = id_vendor_group;
     }
 
-    public String getId_vendor_eproc() {
-        return id_vendor_eproc;
-    }
-
-    public void setId_vendor_eproc(String id_vendor_eproc) {
-        this.id_vendor_eproc = id_vendor_eproc;
-    }
-
     public String getStatus_eproc() {
         return status_eproc;
     }
 
     public void setStatus_eproc(String status_eproc) {
         this.status_eproc = status_eproc;
+    }
+
+    public String getId_vendor_eproc() {
+        return id_vendor_eproc;
+    }
+
+    public void setId_vendor_eproc(String id_vendor_eproc) {
+        this.id_vendor_eproc = id_vendor_eproc;
     }
 
     public Integer getIs_eproc() {
@@ -333,5 +355,16 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
         this.message_is_eproc = message_is_eproc;
     }
 
+    // public String getNo_skt() {
+    //     return no_skt;
+    // }
+
+    // public void setNo_skt(String no_skt) {
+    //     this.no_skt = no_skt;
+    // }
+
+
     
+
+
 }

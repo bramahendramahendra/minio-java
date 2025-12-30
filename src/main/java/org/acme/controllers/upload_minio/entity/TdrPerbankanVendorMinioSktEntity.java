@@ -7,10 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "tdr_perbankan_vendor_nonskt")
-public class TdrPerbankanVendorNonSktEntity {
-     @Id
+@Table(name = "tdr_perbankan_vendor_minio")
+public class TdrPerbankanVendorMinioSktEntity {
+      @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "id_perbankan")
     private Long id_perbankan;
@@ -18,7 +20,7 @@ public class TdrPerbankanVendorNonSktEntity {
     @Column(name = "id_identitas")
     private Long id_identitas;
 
-    @Column(name = "have_bri_account")
+    @Column(name = "have_bri_account", length = 1)
     private Boolean have_account_bri;
 
     @Column(name = "lokasi_bank", length = 2)
@@ -39,7 +41,7 @@ public class TdrPerbankanVendorNonSktEntity {
     @Column(name = "negara")
     private String negara;
 
-    @Column(name = "kode_negara", length = 3)
+    @Column(name = "kode_negara", length = 5)
     private String kode_negara;
 
     @Column(name = "no_rek", length = 50)
@@ -56,9 +58,36 @@ public class TdrPerbankanVendorNonSktEntity {
 
     @Column(name = "koran_path")
     private String koran_path;
-    
-    @Column(name = "minio_status")
-    private Integer minio_status;
+
+    @Column(name = "minio_path", columnDefinition = "TEXT")
+    private String minio_path;
+
+    @Column(name = "upload_date")
+    private LocalDateTime upload_minio;
+
+    public String getKode_negara() {
+        return kode_negara;
+    }
+
+    public void setKode_negara(String kode_negara) {
+        this.kode_negara = kode_negara;
+    }
+
+    public String getMinio_path() {
+        return minio_path;
+    }
+
+    public void setMinio_path(String minio_path) {
+        this.minio_path = minio_path;
+    }
+
+    public LocalDateTime getUpload_minio() {
+        return upload_minio;
+    }
+
+    public void setUpload_minio(LocalDateTime upload_minio) {
+        this.upload_minio = upload_minio;
+    }
 
     public Long getId_perbankan() {
         return id_perbankan;
@@ -170,20 +199,5 @@ public class TdrPerbankanVendorNonSktEntity {
 
     public void setKoran_path(String koran_path) {
         this.koran_path = koran_path;
-    }
-
-    public String getKode_negara() {
-        return kode_negara;
-    }
-
-    public void setKode_negara(String kode_negara) {
-        this.kode_negara = kode_negara;
-    }
-
-    public Integer getMinio_status(){
-        return minio_status;
-    }
-    public void setMinio_status(Integer minio_status){
-        this.minio_status = minio_status;
     }
 }

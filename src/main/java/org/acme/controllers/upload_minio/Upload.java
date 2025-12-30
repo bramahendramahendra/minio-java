@@ -22,7 +22,7 @@ import org.acme.controllers.upload_minio.dto.DeleteUploadDto;
 // import org.acme.controllers.upload_minio.dto.DokLegalDto;
 import org.acme.controllers.upload_minio.dto.FileUploadDto;
 import org.acme.controllers.upload_minio.dto.GetObjectPerbankanDto;
-import org.acme.controllers.upload_minio.repository.TdrIdentitasVendorRepository;
+import org.acme.controllers.upload_minio.repository.TdrIdentitasVendorSktRepository;
 import org.acme.controllers.upload_minio.repository.TdrMstFileLegalitasRepository;
 import org.acme.utils.handlerResponse;
 import org.eclipse.microprofile.config.ConfigProvider;
@@ -68,7 +68,7 @@ public class Upload {
     @Inject MinioAsyncClient MinioClient;
 
 
-    @Inject TdrIdentitasVendorRepository tdrIdentitas;
+    @Inject TdrIdentitasVendorSktRepository tdrIdentitas;
 
     @Inject TdrMstFileLegalitasRepository tdrMstLegalitasDok;
 

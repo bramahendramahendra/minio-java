@@ -9,8 +9,8 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tdr_identitas_vendor_legal_doc_minio_nonskt")
-public class TdrIdentitasVendorMinioNonSktEntity {
+@Table(name = "tdr_identitas_vendor_legal_doc_minio")
+public class TdrIdentitasVendorMinioSktEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_legal_doc_minio")
@@ -100,5 +100,5 @@ public class TdrIdentitasVendorMinioNonSktEntity {
     public void setDate_upload(LocalDateTime date_upload) {
         this.date_upload = date_upload;
     }
-
+    
 }

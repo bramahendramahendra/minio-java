@@ -1,8 +1,7 @@
 
-root.folder.sso=/var/www/brismile_online/uploads/TDR_VENDOR
-# root.folder.sso=C:/BRI/tdr_online/tdr/java-minio/upload-minio-service/db-simat
+# root.folder.sso=/var/www/brismile_online/uploads/TDR_VENDOR
+root.folder.sso=C:/BRI/tdr_online/tdr/java-minio/upload-minio-service/db-simat
 # root.folder.sso=/home/onixdev/TDR_VENDOR
-
 bucket.minio=eproc-registrasi-dev01
 url.registrasi.eproc=http://api.close.dev.bri.co.id:5557/gateway/apiTDROnline/1.0/adw/registration
 name.jobs=Brismile_SSO

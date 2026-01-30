@@ -187,12 +187,15 @@ public class TdrIdentitasVendorNonSktEntity extends PanacheEntityBase {
     private LocalDateTime tgl_insert;
 
     @Column(name = "is_minio_identitas_vendor")
-    private Integer is_minio_identitas_vendor;
-
+    // private Integer is_minio_identitas_vendor;
+    private Integer is_minio_identitas_vendor = 0;
 
     public Integer getIs_minio_identitas_vendor() {
-        return is_minio_identitas_vendor;
+        return is_minio_identitas_vendor != null ? is_minio_identitas_vendor : 0;
     }
+    // public Integer getIs_minio_identitas_vendor() {
+    //     return is_minio_identitas_vendor;
+    // }
 
     public void setIs_minio_identitas_vendor(Integer is_minio_identitas_vendor) {
         this.is_minio_identitas_vendor = is_minio_identitas_vendor;

@@ -58,42 +58,4 @@ public class TestSchedulerController {
         }
     }
 
-    /**
-     * Trigger scheduler Non-SKT secara manual
-     * POST http://localhost:3010/test-scheduler/trigger-nonskt
-     * Body: { "requestId": "REQ-001" } (optional)
-     */
-    @POST
-    @Path("/trigger-nonskt")
-    public Response triggerNonSKT(Map<String, String> payload) {
-        try {
-            String requestId = payload != null ? payload.get("pengajuan_id") : null;
-            
-            if (requestId != null && !requestId.isEmpty()) {
-                LOG.info("Manual trigger scheduler NON SKT with request ID: " + requestId);
-                iprocScheduled.send_tdr_nonskt_by_id_pengajuan(requestId);
-            } 
-            // else {
-            //     LOG.info("Manual trigger scheduler NON SKT for all records...");
-            //     iprocScheduled.send_tdr_nonskt();
-            // }
-            
-            return Response.ok()
-                .entity(Map.of(
-                    "status", "success", 
-                    "message", requestId != null ? 
-                        "Scheduler NON SKT triggered successfully for request ID: " + requestId :
-                        "Scheduler NON SKT triggered successfully for all records"
-                ))
-                .build();
-        } catch (Exception e) {
-            LOG.error("Error triggering scheduler Non-SKT: " + e.getMessage());
-            return Response.status(500)
-                .entity(Map.of(
-                    "status", "error", 
-                    "message", e.getMessage()
-                ))
-                .build();
-        }
-    }
 }

@@ -1,6 +1,7 @@
 package org.acme.utils;
 
 import org.acme.utils.objectPost.RegistrationData;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,8 +19,14 @@ public class httpRequest {
     
 
     private final Client client;
-    private final String username = "eproc";
-    private final String password = "eproc123";
+    // private final String username = "eproc";
+    // private final String password = "eproc123";
+
+    @ConfigProperty(name = "http.request.username")
+    String username;
+    
+    @ConfigProperty(name = "http.request.password")
+    String password;
 
     public httpRequest() {
         this.client = ClientBuilder.newClient();

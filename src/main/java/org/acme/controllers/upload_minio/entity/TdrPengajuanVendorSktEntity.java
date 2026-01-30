@@ -106,6 +106,9 @@ public class TdrPengajuanVendorSktEntity extends PanacheEntityBase {
 
     @Column(name = "message_is_eproc", columnDefinition = "TEXT")
     private String message_is_eproc;
+
+    @Column(name = "id_log_eproc")
+    private Long id_log_eproc;
     
     public String getId_pengajuan() {
         return id_pengajuan;
@@ -363,8 +366,11 @@ public class TdrPengajuanVendorSktEntity extends PanacheEntityBase {
     //     this.no_skt = no_skt;
     // }
 
+    public Long getId_log_eproc() {
+        return id_log_eproc;
+    }
 
-    
-
-
+    public void setId_log_eproc(Long id_log_eproc) {
+        this.id_log_eproc = id_log_eproc;
+    }
 }

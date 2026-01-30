@@ -2,9 +2,12 @@ package org.acme.controllers.upload_minio.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -57,9 +60,25 @@ public class TdrPerbankanVendorNonSktEntity {
     @Column(name = "koran_path")
     private String koran_path;
     
-    @Column(name = "minio_status")
-    private Integer minio_status;
+    @Column(name = "is_minio")
+    private Integer is_minio;
 
+    // ========== TAMBAHKAN RELASI DI SINI ==========
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_perbankan", referencedColumnName = "id_perbankan", 
+                insertable = false, updatable = false)
+    private TdrPerbankanVendorMinioNonSktEntity perbankanMinioNonSktEntity;
+
+     // ========== GETTER & SETTER UNTUK RELASI ==========
+    public TdrPerbankanVendorMinioNonSktEntity getPerbankanMinioNonSktEntity() {
+        return perbankanMinioNonSktEntity;
+    }
+
+    public void setPerbankanMinioNonSktEntity(TdrPerbankanVendorMinioNonSktEntity perbankanMinioNonSktEntity) {
+        this.perbankanMinioNonSktEntity = perbankanMinioNonSktEntity;
+    }
+
+    // ========== GETTER & SETTER ==========
     public Long getId_perbankan() {
         return id_perbankan;
     }
@@ -180,10 +199,10 @@ public class TdrPerbankanVendorNonSktEntity {
         this.kode_negara = kode_negara;
     }
 
-    public Integer getMinio_status(){
-        return minio_status;
+    public Integer getIs_minio(){
+        return is_minio;
     }
-    public void setMinio_status(Integer minio_status){
-        this.minio_status = minio_status;
+    public void setIs_minio(Integer is_minio){
+        this.is_minio = is_minio;
     }
 }

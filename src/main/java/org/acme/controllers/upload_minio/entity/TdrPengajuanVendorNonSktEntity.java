@@ -58,7 +58,6 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
     @Column(name = "lkr_path")
     private String lkr_path;
 
-
     @Column(name = "maker_rurptrskt", columnDefinition = "TEXT")
     private String maker_rurptrskt;
 
@@ -100,6 +99,9 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
 
     @Column(name = "message_is_eproc", columnDefinition = "TEXT")
     private String message_is_eproc;
+
+    @Column(name = "id_log_eproc")
+    private Long id_log_eproc;
 
     public String getId_pengajuan() {
         return id_pengajuan;
@@ -333,5 +335,11 @@ public class TdrPengajuanVendorNonSktEntity extends PanacheEntityBase {
         this.message_is_eproc = message_is_eproc;
     }
 
-    
+    public Long getId_log_eproc() {
+        return id_log_eproc;
+    }
+
+    public void setId_log_eproc(Long id_log_eproc) {
+        this.id_log_eproc = id_log_eproc;
+    }
 }

@@ -19,8 +19,14 @@ public class TdrIdentitasVendorMinioNonSktEntity {
     @Column(name = "id_pengajuan", length = 50)
     private String id_pengajuan;
 
+    @Column(name = "id_identitas")
+    private Long id_identitas;
+
     @Column(name = "dok")
     private Integer dok;
+
+    @Column(name = "dok_legalitas_path")
+    private String dok_legalitas_path;
 
     @Column(name = "nama_dok", columnDefinition = "TEXT")
     private String nama_dok;
@@ -28,11 +34,17 @@ public class TdrIdentitasVendorMinioNonSktEntity {
     @Column(name = "path_minio", columnDefinition = "TEXT")
     private String path_minio;
 
-    @Column(name = "is_eproc")
-    private Integer is_eproc;
+    @Column(name = "status")
+    private String status; // "SUCCESS", "FAILED", "SKIPPED"
 
-    @Column(name = "status_skt")
-    private Integer status_skt;
+    @Column(name = "error_message", columnDefinition = "TEXT")
+    private String errorMessage;
+
+    // @Column(name = "is_eproc")
+    // private Integer is_eproc;
+
+    // @Column(name = "status_skt")
+    // private Integer status_skt;
 
     @Column(name = "date_upload")
     private LocalDateTime date_upload;
@@ -53,12 +65,28 @@ public class TdrIdentitasVendorMinioNonSktEntity {
         this.id_pengajuan = id_pengajuan;
     }
 
+    public Long getIdIdentitas() {
+        return id_identitas;
+    }
+
+    public void setIdIdentitas(Long id_identitas) {
+        this.id_identitas = id_identitas;
+    }
+
     public Integer getDok() {
         return dok;
     }
 
     public void setDok(Integer dok) {
         this.dok = dok;
+    }
+
+    public String getDokLegalitasPath() {
+        return dok_legalitas_path;
+    }
+
+    public void setDokLegalitasPath(String dok_legalitas_path) {
+        this.dok_legalitas_path = dok_legalitas_path;
     }
 
     public String getNama_dok() {
@@ -77,21 +105,37 @@ public class TdrIdentitasVendorMinioNonSktEntity {
         this.path_minio = path_minio;
     }
 
-    public Integer getIs_eproc() {
-        return is_eproc;
+    public String getStatus() {
+        return status;
     }
 
-    public void setIs_eproc(Integer is_eproc) {
-        this.is_eproc = is_eproc;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Integer getStatus_skt() {
-        return status_skt;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setStatus_skt(Integer status_skt) {
-        this.status_skt = status_skt;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
+
+    // public Integer getIs_eproc() {
+    //     return is_eproc;
+    // }
+
+    // public void setIs_eproc(Integer is_eproc) {
+    //     this.is_eproc = is_eproc;
+    // }
+
+    // public Integer getStatus_skt() {
+    //     return status_skt;
+    // }
+
+    // public void setStatus_skt(Integer status_skt) {
+    //     this.status_skt = status_skt;
+    // }
 
     public LocalDateTime getDate_upload() {
         return date_upload;

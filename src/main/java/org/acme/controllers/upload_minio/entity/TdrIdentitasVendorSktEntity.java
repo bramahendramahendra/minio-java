@@ -44,7 +44,6 @@ public class TdrIdentitasVendorSktEntity extends PanacheEntityBase {
     @Column(name = "kode_kegiatan_usaha", length = 3)
     private Integer kode_kegiatan_usaha;
 
-
     @Column(name = "nama_kegiatan_usaha", length = 20)
     private String nama_kegiatan_usaha;
 
@@ -78,7 +77,6 @@ public class TdrIdentitasVendorSktEntity extends PanacheEntityBase {
 
     @Column(name = "nama_provinsi")
     private String nama_provinsi;
-
 
     @Column(name = "kota")
     private String kota;
@@ -187,7 +185,6 @@ public class TdrIdentitasVendorSktEntity extends PanacheEntityBase {
     @Column(name = "tgl_npwp")
     private LocalDate tgl_npwp;
 
-
     @Column(name = "tgl_pkp")
     private LocalDate tgl_pkp;
 
@@ -230,16 +227,10 @@ public class TdrIdentitasVendorSktEntity extends PanacheEntityBase {
     @Column(name = "tgl_insert")
     private LocalDateTime tgl_insert;
 
+    // @Column(name = "is_minio_identitas_vendor")
+    // private Integer is_minio_identitas_vendor;
     @Column(name = "is_minio_identitas_vendor")
-    private Integer is_minio_identitas_vendor;
-
-    public Integer getIs_minio_identitas_vendor() {
-        return is_minio_identitas_vendor;
-    }
-
-    public void setIs_minio_identitas_vendor(Integer is_minio_identitas_vendor) {
-        this.is_minio_identitas_vendor = is_minio_identitas_vendor;
-    }
+    private Integer is_minio_identitas_vendor = 0;
 
     public Long getId_identitas() {
         return id_identitas;
@@ -785,4 +776,17 @@ public class TdrIdentitasVendorSktEntity extends PanacheEntityBase {
         this.tgl_insert = tgl_insert;
     }
 
+    // public Integer getIs_minio_identitas_vendor() {
+    //     return is_minio_identitas_vendor;
+    // }
+    public Integer getIs_minio_identitas_vendor() {
+        return is_minio_identitas_vendor != null ? is_minio_identitas_vendor : 0;
+    }
+    
+    public void setIs_minio_identitas_vendor(Integer is_minio_identitas_vendor) {
+        this.is_minio_identitas_vendor = is_minio_identitas_vendor;
+    }
+    // public void setIs_minio_identitas_vendor(Integer is_minio_identitas_vendor) {
+    //     this.is_minio_identitas_vendor = is_minio_identitas_vendor;
+    // }
 }

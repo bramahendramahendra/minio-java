@@ -22,6 +22,15 @@ public class TdrMstFileLegalitasEntity {
     @Column(name = "iproc_type", length = 100)
     private String iproc_type;
 
+    @Column(name = "status_upload_minio")
+    private String status_upload_minio;
+
+    @Column(name = "status_skt")
+    private String status_skt;
+
+    @Column(name = "status_non_skt")
+    private String status_non_skt;
+
     public String getIproc_type() {
         return iproc_type;
     }
@@ -46,7 +55,27 @@ public class TdrMstFileLegalitasEntity {
         this.nama_file = nama_file;
     }
 
-    
+    public String getStatus_upload_minio() {
+        return status_upload_minio;
+    }
 
+    public void setStatus_upload_minio(String status_upload_minio) {
+        this.status_upload_minio = status_upload_minio;
+    }
 
+    public String getStatus_skt() {
+        return status_skt;
+    }
+
+    public void setStatus_skt(String status_skt) {
+        this.status_skt = status_skt;
+    }
+
+    public String getStatus_non_skt() {
+        return status_non_skt;
+    }
+
+    public void setStatus_non_skt(String status_non_skt) {
+        this.status_non_skt = status_non_skt;
+    }
 }

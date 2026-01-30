@@ -2,9 +2,13 @@ package org.acme.controllers.upload_minio.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
@@ -34,7 +38,6 @@ public class TdrPengalamanVendorSktEntity {
     @Column(name = "sub_bidang_usaha", length = 3)
     private String sub_bidang_usaha;
 
-
     @Column(name = "pemberi_tugas")
     private String pemberi_tugas;
 
@@ -56,6 +59,51 @@ public class TdrPengalamanVendorSktEntity {
     @Column(name = "spk_path")
     private String spk_path;
 
+    @Column(name = "is_minio")
+    private Integer is_minio = 0;
+
+    // ========== TAMBAHKAN RELASI DI SINI ==========
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_pengalaman", referencedColumnName = "id_pengalaman", 
+                insertable = false, updatable = false)
+    private TdrPengalamanVendorMinioSktEntity pengalamanMinioEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bidang_usaha", referencedColumnName = "kode", 
+                insertable = false, updatable = false)
+    private TdrMstBidangUsahaEntity bidangUsahaEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_bidang_usaha", referencedColumnName = "kode", 
+                insertable = false, updatable = false)
+    private TdrSubBidangUsahaEntity subBidangUsahaEntity;
+
+    // ========== GETTER & SETTER UNTUK RELASI ==========
+    public TdrPengalamanVendorMinioSktEntity getPengalamanMinioEntity() {
+        return pengalamanMinioEntity;
+    }
+
+    public void setPengalamanMinioEntity(TdrPengalamanVendorMinioSktEntity pengalamanMinioEntity) {
+        this.pengalamanMinioEntity = pengalamanMinioEntity;
+    }
+
+    public TdrMstBidangUsahaEntity getBidangUsahaEntity() {
+        return bidangUsahaEntity;
+    }
+
+    public void setBidangUsahaEntity(TdrMstBidangUsahaEntity bidangUsahaEntity) {
+        this.bidangUsahaEntity = bidangUsahaEntity;
+    }
+
+    public TdrSubBidangUsahaEntity getSubBidangUsahaEntity() {
+        return subBidangUsahaEntity;
+    }
+
+    public void setSubBidangUsahaEntity(TdrSubBidangUsahaEntity subBidangUsahaEntity) {
+        this.subBidangUsahaEntity = subBidangUsahaEntity;
+    }
+
+    // ========== GETTER & SETTER ==========
     public Long getId_pengalaman() {
         return id_pengalaman;
     }
@@ -160,5 +208,11 @@ public class TdrPengalamanVendorSktEntity {
         this.spk_path = spk_path;
     }
 
+    public Integer getIs_minio() {
+        return is_minio != null ? is_minio : 0;
+    }
     
+    public void setIs_minio(Integer is_minio) {
+        this.is_minio = is_minio;
+    }    
 }

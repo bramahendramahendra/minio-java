@@ -490,13 +490,17 @@ public class IprocScheduled {
             // =====================================================
             // STEP 5: Identitas Vendor
             // =====================================================
+
+            
             MainData MainObject = new MainData();
             MainObject.setEmail_address(vTdrIdentitasVendorSkt.getEmail());
             MainObject.setPengajuan_id(vTdrPengajuanVendorSkt.getId_pengajuan());
             MainObject.setStatus_skt("SKT");
             MainObject.setVendor_id_tdr(vTdrPengajuanVendorSkt.getId_vendor_eproc());
-            List<String> renewalStatuses = Arrays.asList("SKDC1", "F", "REG05");
-            if(renewalStatuses.contains(vTdrPengajuanVendorSkt.getStatus_mcs()) || renewalStatuses.contains(vTdrPengajuanVendorSkt.getStatus_eproc())){
+            List<TdrPengajuanVendorSktEntity> tdrPengajuanListCheck = tdrPengajuanVendorSkt.find("where userid = ?1 and ((status_mcs in ('SKDC1', 'F')) or (is_eproc = 1 and status_eproc = 'REG05'))", vTdrPengajuanVendorSkt.getUserid()).list();
+            // List<String> renewalStatuses = Arrays.asList("SKDC1", "F", "REG05");
+            // if(renewalStatuses.contains(vTdrPengajuanVendorSkt.getStatus_mcs()) || renewalStatuses.contains(vTdrPengajuanVendorSkt.getStatus_eproc())){
+            if(tdrPengajuanListCheck.size() >= 1){
                 LOG.info("RENEWAL");
                 MainObject.setJenis_registrasi("RENEWAL"); 
             } else {
@@ -1248,7 +1252,7 @@ public class IprocScheduled {
     }
 
     // Non SKT 
-    @Scheduled(every = "60s")
+    // @Scheduled(every = "60s")
     public void send_tdr_nonskt(){
         long currentTime = System.currentTimeMillis();
         

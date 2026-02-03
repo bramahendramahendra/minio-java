@@ -45,8 +45,8 @@ public class httpRequest {
         try {
             String a = objectMapper.writeValueAsString(response.getEntity());
             String b = objectMapper.writeValueAsString(request);
-            // System.out.println("request = "+ b);
-            // System.out.println("data = "+a);
+            System.out.println("request = "+ b);
+            System.out.println("data = "+a);
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e);

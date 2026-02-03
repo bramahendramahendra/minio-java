@@ -23,7 +23,6 @@ import org.acme.controllers.upload_minio.repository.TdrUploadMinioLogRepository;
 import org.acme.controllers.upload_minio.repository.TdrLogEprocRepository;
 
 import org.acme.controllers.upload_minio.dto.DokLegalDto;
-import org.acme.controllers.upload_minio.dto.UploaderDto;
 
 import org.acme.controllers.upload_minio.entity.TdrPengajuanVendorSktEntity;
 import org.acme.controllers.upload_minio.entity.TdrPengajuanVendorNonSktEntity;
@@ -41,45 +40,27 @@ import org.acme.controllers.upload_minio.entity.TdrPerbankanVendorMinioSktEntity
 import org.acme.controllers.upload_minio.entity.TdrPerbankanVendorMinioNonSktEntity;
 
 import org.acme.controllers.upload_minio.entity.TdrMstFileLegalitasEntity;
-import org.acme.controllers.upload_minio.entity.TdrUploadMinioLogEntity;
 
-import org.acme.utils.handlerResponse;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.context.ManagedExecutor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
-import io.minio.GetObjectResponse;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioAsyncClient;
 import io.minio.MinioClient;
-import io.minio.ObjectWriteResponse;
-import io.minio.StatObjectArgs;
-import io.minio.StatObjectResponse;
 import io.minio.UploadObjectArgs;
-import io.minio.errors.MinioException;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 import io.quarkus.panache.common.Parameters;
-import io.quarkus.scheduler.Scheduled;
-import io.smallrye.common.annotation.Blocking;
-import io.smallrye.common.annotation.NonBlocking;
 import io.vertx.core.Vertx;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import net.bytebuddy.utility.RandomString;
-
 
 @ApplicationScoped
 public class UploadScheduled {
@@ -1344,14 +1325,14 @@ public class UploadScheduled {
     /**
      * Helper method untuk print object (seperti var_dump di PHP)
      */
-    private void varDump(String label, Object obj) {
-        try {
-            String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
-            LOG.info("==================== VAR_DUMP: " + label + " ====================");
-            LOG.info(json);
-            LOG.info("==================== END VAR_DUMP ====================");
-        } catch (Exception e) {
-            LOG.error("Failed to dump object: " + e.getMessage());
-        }
-    }
+    // private void varDump(String label, Object obj) {
+    //     try {
+    //         String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+    //         LOG.info("==================== VAR_DUMP: " + label + " ====================");
+    //         LOG.info(json);
+    //         LOG.info("==================== END VAR_DUMP ====================");
+    //     } catch (Exception e) {
+    //         LOG.error("Failed to dump object: " + e.getMessage());
+    //     }
+    // }
 }

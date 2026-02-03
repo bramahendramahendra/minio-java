@@ -15,7 +15,7 @@ public class LoadUsers {
     public void loadUsers(@Observes StartupEvent evt) {
         // reset and load all test users
         AccessEntity ae = new AccessEntity();
-        ae.deleteAll();
+        // ae.deleteAll();
         ae.setAppname("tdr_online");
         ae.setPassword(BcryptUtil.bcryptHash("P@ssw0rd"));
         ae.setUsername("tdr");

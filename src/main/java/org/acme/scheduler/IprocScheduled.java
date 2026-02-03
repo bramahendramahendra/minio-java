@@ -1,13 +1,9 @@
 package org.acme.scheduler;
 
-import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,12 +62,8 @@ import org.jboss.logging.Logger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.quarkus.arc.Lock;
-import io.quarkus.logging.Log;
 import io.quarkus.panache.common.Parameters;
-import io.quarkus.runtime.Quarkus;
 import io.quarkus.scheduler.Scheduled;
-import io.smallrye.common.annotation.NonBlocking;
 
 import org.acme.controllers.upload_minio.entity.TdrLogEprocEntity;
 import org.acme.controllers.upload_minio.dto.LapkeuDto;
@@ -93,9 +85,6 @@ import org.acme.controllers.upload_minio.entity.TdrJumlahSdmVendorNonSktEntity;
 
 import org.acme.controllers.upload_minio.entity.TdrIdentitasVendorMinioSktEntity;
 import org.acme.controllers.upload_minio.entity.TdrIdentitasVendorMinioNonSktEntity;
-import org.acme.controllers.upload_minio.entity.TdrPengalamanVendorMinioSktEntity;
-import org.acme.controllers.upload_minio.entity.TdrPerbankanVendorMinioSktEntity;
-import org.acme.controllers.upload_minio.entity.TdrPerbankanVendorMinioNonSktEntity;
 
 import org.acme.controllers.upload_minio.entity.TdrMstBidangUsahaEntity;
 import org.acme.controllers.upload_minio.entity.TdrSubBidangUsahaEntity;
@@ -107,11 +96,9 @@ import org.acme.controllers.upload_minio.enumeration.StatusEprocEnum;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.json.JsonObject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -241,7 +228,8 @@ public class IprocScheduled {
     }
     
     // SKT 
-    @Scheduled(every = "60s")
+    // @Scheduled(every = "60s")
+    @Scheduled(every = "120s")
     public void send_tdr_skt(){
         long currentTime = System.currentTimeMillis();
         
@@ -1253,6 +1241,7 @@ public class IprocScheduled {
 
     // Non SKT 
     // @Scheduled(every = "60s")
+    @Scheduled(every = "120s", delay = 60, delayUnit = TimeUnit.SECONDS)
     public void send_tdr_nonskt(){
         long currentTime = System.currentTimeMillis();
         

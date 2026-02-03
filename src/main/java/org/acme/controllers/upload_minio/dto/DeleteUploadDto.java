@@ -1,7 +1,5 @@
 package org.acme.controllers.upload_minio.dto;
 
-import jakarta.ws.rs.FormParam;
-
 public class DeleteUploadDto {
     // @FormParam("url_minio")
     private String url_minio;
